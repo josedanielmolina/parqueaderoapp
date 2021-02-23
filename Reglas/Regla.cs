@@ -56,5 +56,74 @@ namespace ParqueaderoApp.Reglas
                 Console.ReadLine();
             }
         }
+
+        public static void FinalizarServicio()
+        {
+            using (var _context = new AppDbContext())
+            {
+                Console.Clear();
+
+                Console.WriteLine("Ingrese el numero de la matricula");
+                var matriculaInput = Console.ReadLine();
+
+                // Buscar la placa y verificar que existe y tenga un estado activo, en caso de que no exista enviar un mensaje de error
+                var matriculaFound = _context.Servicios.FirstOrDefault(x => x.Matricula == matriculaInput && x.Estado == true);
+
+                if(matriculaFound == null)
+                {
+                    Mensajes.MensajeFinalizacion("La matricula ingresada no cuenta con un registro activo");
+                    return;
+                }
+
+                // Calcular el tiempo y costo del servicio y enviar un mensaje de informacion
+                var fechaEntrada = matriculaFound.FechaEntrada;
+                TimeSpan tiempoServicio = fechaEntrada.Subtract(DateTime.Now);
+                Double tiempoServicioMinutos = Math.Abs(tiempoServicio.TotalMinutes);
+                double tiempoServicioFinalRendondeado = Math.Truncate(tiempoServicioMinutos * 100) / 100;
+
+                var valorHora = 25;
+                double valorServicio = Math.Round(tiempoServicioFinalRendondeado * valorHora);
+
+
+                Console.Clear();
+                Console.WriteLine($"La duracion del servicio fue {tiempoServicioFinalRendondeado} minutos");
+                Console.WriteLine($"El costo del servicio es ${valorServicio} pesos");
+                Console.WriteLine("Desea finalizar el servicio ? si/no");
+                var respuesta = Console.ReadLine();
+
+                if (respuesta == "si")
+                {
+                    try
+                    {
+                        matriculaFound.Estado = false;
+                        matriculaFound.FechaSalida = DateTime.Now;
+                        matriculaFound.ValorServicio = valorServicio;
+                        matriculaFound.DuracionSercivio = tiempoServicioFinalRendondeado;
+
+                        _context.SaveChanges();
+
+                        Mensajes.MensajeFinalizacion("Servicio finalizado con exito");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        Mensajes.MensajeFinalizacion("Ha ocurrido un error, intente nuevamente");
+                    }
+                }
+                else if (respuesta == "no")
+                {
+                    Console.Clear();
+                    return;
+                }
+                else
+                {
+                    Mensajes.MensajeFinalizacion("Opcion incorrecta");
+                    return;
+                }
+
+                Console.ReadLine();
+                Mensajes.MensajeFinalizacion("El registro finalizo exitosamente");
+            }
+        }
     }
 }

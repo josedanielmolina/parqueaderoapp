@@ -27,7 +27,7 @@ namespace ParqueaderoApp
         public bool Estado { get; set; } = true;
 
         [Column(TypeName = "INT(10)")]
-        public int DuracionSercivio { get; set;}
+        public double DuracionSercivio { get; set;}
 
         [Column(TypeName = "INT(10)")]
         public double ValorServicio { get; set; }

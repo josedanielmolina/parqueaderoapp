@@ -16,7 +16,8 @@ namespace Presentacion
                 Console.WriteLine("Menu Parqueadero - ADMIN");
                 Console.WriteLine("*********************************************");
 
-                Console.WriteLine("1-Registrar un vehiculo");
+                Console.WriteLine("1-Registrar un servicio");
+                Console.WriteLine("2-Finalizar un servicio");
 
 
                 Console.WriteLine("Ingrese una opcion");
@@ -28,7 +29,9 @@ namespace Presentacion
                     case 1:
                         Regla.RegistrarServicio();
                         break;
-
+                    case 2:
+                        Regla.FinalizarServicio();
+                        break;
                 }
             }
         }        
