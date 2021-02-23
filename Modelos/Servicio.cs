@@ -14,7 +14,7 @@ namespace ParqueaderoApp
         public int ServicioId { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(6)")]
+        [Column(TypeName = "CHAR(6)")]
         public string Matricula { get; set; }
 
         [Column(TypeName = "DATETIME")]

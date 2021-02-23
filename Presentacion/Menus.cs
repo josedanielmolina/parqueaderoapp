@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ParqueaderoApp.Reglas;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -25,7 +26,7 @@ namespace Presentacion
                 switch (opcion)
                 {
                     case 1:
-                        Console.WriteLine("Case 1");
+                        Regla.RegistrarServicio();
                         break;
 
                 }

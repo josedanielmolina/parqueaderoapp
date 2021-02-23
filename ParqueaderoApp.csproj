@@ -14,8 +14,4 @@
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Reglas\" />
-  </ItemGroup>
-
 </Project>
